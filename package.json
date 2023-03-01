@@ -1,0 +1,24 @@
+{
+  "name": "social_network_database",
+  "version": "1.0.0",
+  "description": "The backend with database of a social network site, using express and mongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SidneyBasa/social_network_database.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SidneyBasa/social_network_database/issues"
+  },
+  "homepage": "https://github.com/SidneyBasa/social_network_database#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^7.0.0"
+  }
+}
