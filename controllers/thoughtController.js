@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongoose').Types;
 const { Thought, User } = require('../models');
 
 module.exports = {
@@ -6,7 +7,11 @@ module.exports = {
     getThoughts(request, response) {
         Thought.find()
         .then((thoughts) => response.json(thoughts))
-        .catch((error) => response.status(500).json(error));
+        .catch((error) => 
+        {
+            console.log(error),
+            response.status(500).json(error);
+        })
     },
 
     // Get a thought
@@ -23,7 +28,11 @@ module.exports = {
                     ? response.status(404).json({message: 'There is no thought with the provided ID'})
                     : response.json(thought)
                     )
-                    .catch((error) => response.status(500).json(error));
+                    .catch((error) => 
+                    {
+                        console.log(error),
+                        response.status(500).json(error);
+                    })
     },
 
     // Create a thought
@@ -87,4 +96,34 @@ module.exports = {
           )
           .catch((error) => response.status(500).json(error));
       },
+
+          // Create a reaction
+          addReaction(request, response) {
+            Thought.findOneAndUpdate(
+              { _id: request.params.thoughtId },
+              { $addToSet: { reactions: request.body } },
+              { new: true }
+            )
+              .then((thought) =>
+                !thought
+                  ? response.status(404).json({ message: 'There is no thought with this id!' })
+                  : response.json(thought)
+              )
+              .catch((error) => response.status(500).json(error));
+          },
+
+          // Remove a reaction
+          removeReaction(request, response) {
+            Thought.findOneAndUpdate(
+              { _id: request.params.thoughtId },
+              { $pull: { reaction: { reactionId: request.params.reactionId } } },
+              { runValidators: true, new: true }
+            )
+              .then((thought) =>
+                !thought
+                  ? response.status(404).json({ message: 'There is no thought with this id!' })
+                  : response.json(thought)
+              )
+              .catch((error) => response.status(500).json(error));
+          }
 };
