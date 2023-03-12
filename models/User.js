@@ -1,5 +1,6 @@
 const { Schema, model} = require('mongoose');
 const thoughtSchema = require('./Thought');
+const { ObjectId } = require('mongoose').Types;
 
 const userSchema = new Schema(
     {
@@ -14,8 +15,9 @@ const userSchema = new Schema(
             unique: true,
             required: true,
             // code from stack overflow username: ramon22
-            validate: [validateEmail, 'Please fill a valid email address'],
+            
             match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
+                   
         },
         thoughts: [
             {
@@ -25,7 +27,7 @@ const userSchema = new Schema(
         ],
         friends: [
             {
-                type: Schema.types.ObjectId,
+                type: Schema.Types.ObjectId,
                 ref: 'User',
             },
         ],
@@ -39,13 +41,10 @@ const userSchema = new Schema(
     }
 )
 
+
 // code from stack overflow username: ramon22
 // regular expression function to validate email
-var validateEmail = function(email) {
-    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return re.test(email)
-};
 
-const User = model('User', userSchema);
+const User = model('user', userSchema);
 
 module.exports = User;
